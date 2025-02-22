@@ -1,5 +1,5 @@
 {
-    "name": "augustpermana/laravel-meta-table",
+    "name": "augustpermana/laravel-meta-generator",
     "description": "A Laravel package to generate and manage metadata for models",
     "type": "laravel-package",
     "require": {
