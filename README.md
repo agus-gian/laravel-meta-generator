@@ -25,7 +25,7 @@ There are two ways to include this package in your Laravel project:
 If the package is published on Packagist, simply run:
 
 ```bash
-composer require august/laravel-meta-table
+composer require augustpermana/laravel-meta-generator
 ```
 
 Laravel will automatically detect the service provider via package discovery. If necessary, add the service provider manually in your `config/app.php`:
@@ -54,7 +54,7 @@ If the package is not yet published on Packagist, you can add it as a local repo
 Then run:
 
 ```bash
-composer require august/laravel-meta-table
+composer require augustpermana/laravel-meta-generator
 ```
 
 This tells Composer to look for the package in the specified local path.
