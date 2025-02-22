@@ -7,8 +7,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
-        "illuminate/support": "^9.0|^10.0"
+        "illuminate/support": "^9.0|^10.0",
+        "august/laravel-meta-table": "1.0.0"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/agus-gian/laravel-meta-generator.git"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "AugustPermana\\MetaGenerator\\": "src/"
