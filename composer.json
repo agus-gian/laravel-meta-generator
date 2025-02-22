@@ -1,5 +1,5 @@
 {
-    "name": "augustpermana/laravel-meta-table",
+    "name": "augustpermana/laravel-meta-generator",
     "description": "A Laravel package to generate and manage metadata for models",
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -7,8 +7,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
-        "illuminate/support": "^9.0|^10.0|^11.0",
-        "august/laravel-meta-table": "1.0.1"
+        "illuminate/support": "^9.0|^10.0|^11.0"
     },
     "repositories": [
         {
@@ -22,6 +21,9 @@
         }
     },
     "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.1"
+        },
         "laravel": {
             "providers": [
                 "AugustPermana\\MetaGenerator\\ServiceProvider"
