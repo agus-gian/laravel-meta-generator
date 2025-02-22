@@ -1,0 +1,21 @@
+{
+    "name": "augustpermana/laravel-meta-table",
+    "description": "A Laravel package to generate and manage metadata for models",
+    "type": "laravel-package",
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^9.0|^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "AugustPermana\\MetaGenerator\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AugustPermana\\MetaGenerator\\ServiceProvider"
+            ]
+        }
+    }
+}
