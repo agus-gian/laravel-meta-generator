@@ -1,6 +1,8 @@
 {
     "name": "augustpermana/laravel-meta-table",
     "description": "A Laravel package to generate and manage metadata for models",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "type": "laravel-package",
     "license": "MIT",
     "require": {
