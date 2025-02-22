@@ -5,16 +5,25 @@
     "prefer-stable": true,
     "type": "laravel-package",
     "license": "MIT",
+    "keywords": [
+        "laravel",
+        "meta",
+        "meta-table",
+        "meta-generator",
+        "meta-table-generator"
+    ],
+    "authors": [
+        {
+            "name": "Agus Permana",
+            "email": "agus.emailnya@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/agus-gian/laravel-meta-generator",
     "require": {
         "php": "^8.0",
         "illuminate/support": "^9.0|^10.0|^11.0"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/agus-gian/laravel-meta-generator.git"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "AugustPermana\\MetaGenerator\\": "src/"
@@ -22,7 +31,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.1"
+            "dev-main": "1.x-dev",
+            "dev-master": "1.x-dev"
         },
         "laravel": {
             "providers": [
