@@ -11,9 +11,6 @@ A Laravel package designed to effortlessly add and manage metadata for your Eloq
 - [Artisan Commands](#artisan-commands)
   - [make:metadata](#makemetadata)
   - [metadata:clean-orphaned](#metadataclean-orphaned)
-- [Traits & Models](#traits--models)
-  - [HasMetadata Trait](#hasmetadata-trait)
-  - [MetaModel](#metamodel)
 - [Configuration](#configuration)
 - [License](#license)
 
@@ -149,26 +146,6 @@ php artisan metadata:clean-orphaned --model=ModelName
 - Checks the metadata table for records whose associated parent record no longer exists.
 - Prompts for confirmation before deleting any orphaned metadata records.
 - Provides a summary of deleted records.
-
----
-
-## Traits & Models
-
-### HasMetadata Trait
-
-Located in `src/Traits/HasMetadata.php`, this trait provides the following functionalities to your models:
-
-- **Relationship:** Sets up a `hasMany` relationship with the metadata records.
-- **Get, Set, and Sync Methods:** Easily retrieve (`getMeta`), update (`setMeta`), and bulk sync (`syncMeta`, `setManyMeta`) metadata values.
-- **Utility Methods:** Automatically detect value types and serialize/deserialize metadata values for proper casting.
-
-### MetaModel
-
-The base model for metadata tables is defined in `src/Models/MetaModel.php`. It includes:
-
-- Mass assignable fields: `parent_id`, `key`, `type`, and `value`.
-- A polymorphic relationship method (`parent`) to link metadata back to the originating model.
-- A helper method to cast stored meta values to their appropriate types.
 
 ---
 
