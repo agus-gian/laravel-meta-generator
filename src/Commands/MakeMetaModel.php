@@ -32,7 +32,6 @@ class MakeMetaModel extends Command
 
         // Generate the meta model, update the original model, and create migration
         $this->createMetaModel($metaModelName, $modelName);
-        $this->updateOriginalModel($modelName);
         $this->createMigration($modelName);
         
         // Display success messages
@@ -105,32 +104,6 @@ class {{class}} extends MetaModel
     }
 }
 EOT;
-    }
-
-    /**
-     * Update the original model to include the HasMetadata trait.
-     *
-     * @param string $modelName Name of the original model
-     */
-    protected function updateOriginalModel($modelName)
-    {
-        // Define the path to the original model file
-        $path = app_path("Models/{$modelName}.php");
-        if (!File::exists($path)) {
-            $this->error("Model {$modelName} not found!");
-            return;
-        }
-
-        // Read the existing content of the model file
-        $content = File::get($path);
-        
-        // Check if the trait is already included
-        if (!Str::contains($content, 'function getMeta(')) {
-            // Add the HasMetadata trait to the model
-$trait = "\n    use \\AugustPermana\\MetaGenerator\\Traits\\HasMetadata;\n";
-            $content = str_replace('class ' . $modelName, 'class ' . $modelName . $trait, $content);
-            File::put($path, $content);
-        }
     }
 
     /**
