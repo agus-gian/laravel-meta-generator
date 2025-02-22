@@ -1,4 +1,4 @@
-# Laravel Meta Table
+# Laravel Meta Generator
 
 A Laravel package designed to effortlessly add and manage metadata for your Eloquent models without modifying their primary tables. Leverage a flexible key-value system with automatic type detection, casting, and useful artisan commands for seamless setup and maintenance.
 
