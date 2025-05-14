@@ -1,6 +1,6 @@
 # Laravel Meta Generator
 
-A Laravel package designed to effortlessly add and manage metadata for your Eloquent models without modifying their primary tables. Leverage a flexible key-value system with automatic type detection, casting, and useful artisan commands for seamless setup and maintenance.
+Laravel Meta Generator is a powerful package that enables you to easily attach and manage metadata for your Eloquent models without modifying their primary database tables. It provides a flexible key-value system featuring automatic type detection, casting, and handy artisan commands to simplify installation and maintenance.
 
 ---
 
@@ -8,9 +8,11 @@ A Laravel package designed to effortlessly add and manage metadata for your Eloq
 
 - [Installation](#installation)
 - [Usage](#usage)
+  - [Attaching Metadata to a Model](#attaching-metadata-to-a-model)
+  - [Managing Metadata](#managing-metadata)
 - [Artisan Commands](#artisan-commands)
-  - [make:metadata](#makemetadata)
-  - [metadata:clean-orphaned](#metadataclean-orphaned)
+  - [`make:metadata`](#makemetadata)
+  - [`metadata:clean-orphaned`](#metadataclean-orphaned)
 - [Configuration](#configuration)
 - [License](#license)
 
@@ -18,17 +20,17 @@ A Laravel package designed to effortlessly add and manage metadata for your Eloq
 
 ## Installation
 
-There are two ways to include this package in your Laravel project:
+There are two ways to integrate Laravel Meta Generator into your project:
 
 ### 1. Via Packagist
 
-If the package is published on Packagist, simply run:
+Run the following command:
 
 ```bash
 composer require augustpermana/laravel-meta-generator
 ```
 
-Laravel will automatically detect the service provider via package discovery. If necessary, add the service provider manually in your `config/app.php`:
+Laravel will automatically discover the service provider via package discovery. If necessary, manually add the provider in your `config/app.php`:
 
 ```php
 'providers' => [
@@ -40,7 +42,7 @@ Laravel will automatically detect the service provider via package discovery. If
 
 ### 2. Using a Local Repository
 
-If the package is not yet published on Packagist, you can add it as a local repository. In your project's `composer.json`, add the following under the `repositories` section:
+If the package isn’t published on Packagist yet, add it as a local repository. Modify your project's `composer.json`:
 
 ```json
 "repositories": [
@@ -57,82 +59,88 @@ Then run:
 composer require augustpermana/laravel-meta-generator
 ```
 
-This tells Composer to look for the package in the specified local path.
+This configuration instructs Composer to use the specified local path for the package.
 
 ---
 
 ## Usage
 
-This package allows you to attach metadata to your Eloquent models without modifying your original database tables. After installation, you can use the artisan commands provided or integrate the functionality directly into your models.
+Laravel Meta Generator lets you attach metadata to your models without modifying the original database tables. Once installed, you can either use the provided artisan commands or manually integrate the functionality into your models.
 
 ### Attaching Metadata to a Model
 
 1. **Generate Metadata Files:**
 
-   Use the artisan command to generate the metadata system for an existing model. For example, to generate metadata for a `Book` model:
+   Run the artisan command to set up the metadata system for an existing model. For example, for a `Book` model:
 
    ```bash
    php artisan make:metadata --model=Book
    ```
 
-   This command does the following:
-   - **Creates a Meta Model File:** A new file (e.g., `BookMeta.php`) will be created in your application's `Models` directory. This model extends the package's base `MetaModel` class.
-- **Updates the Original Model:** You must manually update your original model file (e.g., `Book.php`) to include the `HasMetadata` trait. For example:
-  
+   When you run this command, it performs the following actions:
+   - **Creates a Meta Model File:** Generates a new file (e.g., `BookMeta.php`) in your application's `Models` directory. This file extends the package’s base `MetaModel` class.
+   - **Updates the Original Model:** You must manually update your original model file (e.g., `Book.php`) to include the `HasMetadata` trait. For example:
+
+     ```php
+     <?php
+
+     namespace App\Models;
+
+     use Illuminate\Database\Eloquent\Model;
+     use AugustPermana\MetaGenerator\Traits\HasMetadata;
+
+     class Book extends Model
+     {
+         use HasMetadata;
+     }
+     ```
+
+   - **Creates a Migration:** Generates a migration to create the corresponding metadata table (e.g., `book_meta`).
+
+### Managing Metadata
+
+Once set up, your model gains several useful methods via the `HasMetadata` trait:
+
+- **Retrieving Metadata:**
+
   ```php
-  <?php
-  
-  namespace App\Models;
-  
-  use Illuminate\Database\Eloquent\Model;
-  use AugustPermana\MetaGenerator\Traits\HasMetadata;
-  
-  class Book extends Model
-  {
-      use HasMetadata;
-  }
+  $value = $book->getMeta('author');
   ```
-   - **Creates a Migration:** A new migration will be generated to create the corresponding metadata table (e.g., `book_meta`).
 
-2. **Managing Metadata:**
+- **Setting Metadata:**
 
-   Once setup, your model gains several helpful methods via the `HasMetadata` trait:
-   
-   - **Retrieving Metadata:**
-     ```php
-     $value = $book->getMeta('author');
-     ```
-   
-   - **Setting Metadata:**
-     ```php
-     $book->setMeta('publisher', 'Acme Publishing');
-     ```
+  ```php
+  $book->setMeta('publisher', 'Acme Publishing');
+  ```
 
-   - **Bulk Updating Metadata:**
-     ```php
-     $book->setManyMeta([
-         'isbn' => '1234567890',
-         'pages' => 350,
-         'published_at' => '2025-02-22'
-     ]);
-     ```
+- **Bulk Updating Metadata:**
+
+  ```php
+  $book->setManyMeta([
+      'isbn' => '1234567890',
+      'pages' => 350,
+      'published_at' => '2025-02-22'
+  ]);
+  ```
 
 - **Syncing Metadata:**
-     ```php
-     $book->syncMeta([
-         'genre' => 'Fiction',
-         'language' => 'English'
-     ]);
-     ```
 
-- **Querying Models by Meta:**
-     ```php
-     // Query models having meta "author" with any value
-     $models = Model::whereHasMeta('author')->get();
+  ```php
+  $book->syncMeta([
+      'genre' => 'Fiction',
+      'language' => 'English'
+  ]);
+  ```
 
-     // Query models having meta "author" with a specific value
-     $models = Model::whereHasMeta('author', 'John Doe')->get();
-     ```
+- **Querying Models by Metadata:**
+
+  ```php
+  // Retrieve models with any value for the "author" metadata
+  $models = Model::whereHasMeta('author')->get();
+
+  // Retrieve models with a specific "author" value
+  $models = Model::whereHasMeta('author', 'John Doe')->get();
+  ```
 
 ---
 
@@ -140,7 +148,7 @@ This package allows you to attach metadata to your Eloquent models without modif
 
 ### `make:metadata`
 
-This command assists in setting up the metadata infrastructure for a specific model.
+This command sets up the metadata infrastructure for a specific model.
 
 **Usage:**
 
@@ -151,12 +159,12 @@ php artisan make:metadata --model=ModelName
 **What It Does:**
 
 - Generates a new meta model file in `app/Models` (e.g., `ModelNameMeta.php`).
-- Updates the corresponding original model to include the `HasMetadata` trait.
-- Creates a migration file to build the metadata table (e.g., `model_name_meta`).
+- Requires you to manually update your original model to include the `HasMetadata` trait.
+- Creates a migration to build the metadata table (e.g., `model_name_meta`).
 
 ### `metadata:clean-orphaned`
 
-This command cleans up orphaned metadata records in case the parent model has been deleted.
+This command cleans up metadata records that no longer have an associated parent model.
 
 **Usage:**
 
@@ -166,22 +174,22 @@ php artisan metadata:clean-orphaned --model=ModelName
 
 **What It Does:**
 
-- Checks the metadata table for records whose associated parent record no longer exists.
-- Prompts for confirmation before deleting any orphaned metadata records.
-- Provides a summary of deleted records.
+- Scans the metadata table for records with missing parent entries.
+- Prompts for confirmation before deleting any orphaned records.
+- Provides a summary of the changes performed.
 
 ---
 
 ## Configuration
 
-This package requires no additional configuration. After installation, simply run the artisan commands as needed. However, ensure that your application's models are placed within the default locations (e.g., `app/Models`) or adjust the paths accordingly if customized.
+No additional configuration is required. Simply run the artisan commands as needed. Ensure that your models are located in the default directory (e.g., `app/Models`) or adjust the paths accordingly if customized.
 
 ---
 
 ## License
 
-This package is open-sourced software licensed under the [MIT license](LICENSE).
+Laravel Meta Generator is open-sourced software licensed under the [MIT license](LICENSE).
 
 ---
 
-This documentation provides an overview of the package functionality and usage. For detailed implementation and further customization, please refer to the source code.
+This documentation provides an overview of the package's functionality and usage. For more details and further customization options, please refer to the source code.
