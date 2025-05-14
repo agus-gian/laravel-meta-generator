@@ -77,7 +77,21 @@ This package allows you to attach metadata to your Eloquent models without modif
 
    This command does the following:
    - **Creates a Meta Model File:** A new file (e.g., `BookMeta.php`) will be created in your application's `Models` directory. This model extends the package's base `MetaModel` class.
-   - **Updates the Original Model:** The package automatically updates your original model file (e.g., `Book.php`) to include the `HasMetadata` trait.
+- **Updates the Original Model:** You must manually update your original model file (e.g., `Book.php`) to include the `HasMetadata` trait. For example:
+  
+  ```php
+  <?php
+  
+  namespace App\Models;
+  
+  use Illuminate\Database\Eloquent\Model;
+  use AugustPermana\MetaGenerator\Traits\HasMetadata;
+  
+  class Book extends Model
+  {
+      use HasMetadata;
+  }
+  ```
    - **Creates a Migration:** A new migration will be generated to create the corresponding metadata table (e.g., `book_meta`).
 
 2. **Managing Metadata:**
