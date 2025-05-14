@@ -1,6 +1,6 @@
 <?php
 
-namespace August\MetaGenerator\Traits;
+namespace AugustPermana\MetaGenerator\Traits;
 
 use Carbon\Carbon;
 
