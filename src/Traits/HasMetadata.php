@@ -211,9 +211,27 @@ trait HasMetadata
                 return base64_encode($value instanceof \Resource ? stream_get_contents($value) : $value);
             default:
                 return (string)$value;
-        }
-    }
+        } // end switch
+    } // end serializeValue
 
+    /**
+     * Scope a query to include models having a given meta key and optionally a value.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $key
+     * @param mixed $value (optional)
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWhereHasMeta($query, $key, $value = null)
+    {
+        return $query->whereHas('meta', function ($q) use ($key, $value) {
+            $q->where('key', $key);
+            if (!is_null($value)) {
+                $q->where('value', $value);
+            }
+        });
+    }
+    
     /**
      * Cast a stored value to its original type.
      *
@@ -255,4 +273,4 @@ trait HasMetadata
                 return $value;
         }
     }
-}
+} // end trait

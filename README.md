@@ -103,12 +103,21 @@ This package allows you to attach metadata to your Eloquent models without modif
      ]);
      ```
 
-   - **Syncing Metadata:**
+- **Syncing Metadata:**
      ```php
      $book->syncMeta([
          'genre' => 'Fiction',
          'language' => 'English'
      ]);
+     ```
+
+- **Querying Models by Meta:**
+     ```php
+     // Query models having meta "author" with any value
+     $models = Model::whereHasMeta('author')->get();
+
+     // Query models having meta "author" with a specific value
+     $models = Model::whereHasMeta('author', 'John Doe')->get();
      ```
 
 ---
