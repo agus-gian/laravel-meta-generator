@@ -273,4 +273,4 @@ trait HasMetadata
                 return $value;
         }
     }
-} // end trait
+}
