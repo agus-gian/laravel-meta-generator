@@ -2,7 +2,8 @@
 
 namespace AugustPermana\MetaGenerator\Traits;
 
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 /**
  * Trait to provide metadata functionality to models.
